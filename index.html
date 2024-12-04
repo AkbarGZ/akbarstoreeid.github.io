@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e8f4fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px;
+            height: 80vh;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #006d91;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f8fbfd;
+        }
+        .chat-message {
+            margin-bottom: 15px;
+        }
+        .user-message {
+            text-align: right;
+        }
+        .bot-message {
+            text-align: left;
+        }
+        .message {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .user-message .message {
+            background-color: #006d91;
+            color: #ffffff;
+            border-top-right-radius: 0;
+        }
+        .bot-message .message {
+            background-color: #e1eff6;
+            color: #333333;
+            border-top-left-radius: 0;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #dddddd;
+            background-color: #ffffff;
+        }
+        .chat-input textarea {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+        }
+        .chat-input button {
+            background-color: #006d91;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+        .chat-input button:hover {
+            background-color: #005375;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Chat Bot
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="chat-input">
+            <textarea id="user-input" placeholder="Type your message here..." rows="1"></textarea>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+
+        // Show welcome message on load
+        window.onload = function () {
+            appendMessage('bot', 'Selamat datang! Saya adalah bot auto-responder. Ketik sesuatu untuk memulai.');
+        };
+
+        function sendMessage() {
+            const userText = userInput.value.trim();
+            if (userText === '') return;
+
+            // Append user's message
+            appendMessage('user', userText);
+
+            // Clear input
+            userInput.value = '';
+
+            // Simulate bot response
+            setTimeout(() => {
+                const botResponse = autoRespond(userText);
+                appendMessage('bot', botResponse);
+            }, 500);
+        }
+
+        function appendMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', sender + '-message');
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message');
+            messageContent.textContent = text;
+            messageDiv.appendChild(messageContent);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function autoRespond(userText) {
+            // Bot response logic
+            switch (userText.toLowerCase()) {
+                case 'halo':
+                    return 'Hai';
+                case 'apa kabar':
+                    return 'Saya baik, bagaimana denganmu?';
+                case 'siapa kamu':
+                    return 'Saya adalah bot auto-responder sederhana.';
+                default:
+                    return 'Maaf, saya tidak mengerti.';
+            }
+        }
+    </script>
+</body>
+</html>
